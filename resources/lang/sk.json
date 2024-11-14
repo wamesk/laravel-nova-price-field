@@ -1,0 +1,5 @@
+{
+    "with_tax": ":price s DPH",
+    "without_tax": ":price bez DPH",
+    "tax_amount": ":price DPH"
+}
