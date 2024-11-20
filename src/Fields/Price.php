@@ -4,10 +4,15 @@ namespace Wame\LaravelNovaPriceField\Fields;
 
 use Illuminate\Validation\ValidationException;
 use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Fields\FieldFilterable;
+use Laravel\Nova\Fields\SupportsDependentFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Price extends Field
 {
+    use SupportsDependentFields;
+    use FieldFilterable;
+
     /**
      * The field's component.
      *
@@ -80,5 +85,10 @@ class Price extends Field
             'only_without_tax' => true,
             'only_with_tax' => false,
         ]);
+    }
+
+    protected function makeFilter(NovaRequest $request)
+    {
+
     }
 }

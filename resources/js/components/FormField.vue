@@ -11,7 +11,7 @@
         type="text"
         class="w-full form-control form-input form-control-bordered"
         :class="errorClasses"
-        :placeholder="field.name"
+        :placeholder="currentField.name"
         v-model="value"
       />
     </template>
@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import { FormField, HandlesValidationErrors } from 'laravel-nova'
+import { DependentFormField, HandlesValidationErrors } from 'laravel-nova'
 
 export default {
-  mixins: [FormField, HandlesValidationErrors],
+  mixins: [DependentFormField, HandlesValidationErrors],
 
   props: ['resourceName', 'resourceId', 'field'],
 
@@ -31,7 +31,7 @@ export default {
      * Set the initial, internal value for the field.
      */
     setInitialValue() {
-      this.value = this.field.value || ''
+      this.value = this.currentField.value || ''
     },
 
     /**
