@@ -56,7 +56,7 @@ class PriceCast implements Castable
                 $taxColumn = $model::$taxColumn ?? 'tax';
                 $quantityColumn = $model::$quantityColumn ?? 'quantity';
 
-                return new PriceCast($value, $model->$taxColumn, $model->$quantityColumn);
+                return new PriceCast($value, $model->$taxColumn ?? null, $model->$quantityColumn ?? null);
             }
 
             /**
