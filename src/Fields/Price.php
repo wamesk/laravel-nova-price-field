@@ -20,16 +20,20 @@ class Price extends Field
         parent::__construct($name, $attribute, $resolveCallback);
 
         $this->resolveUsing(function ($value, $resource) {
-            $this->withMeta([
-                'formatted_price_with_tax' => $value->withTax(true),
-                'formatted_price_without_tax' => $value->withoutTax(true),
-                'formatted_tax_amount' => $value->taxAmount(true),
-                'formatted_total_price_with_tax' => $value->totalWithTax(true),
-                'formatted_total_price_without_tax' => $value->totalWithoutTax(true),
-                'formatted_total_tax_amount' => $value->totalTaxAmount(true),
-            ]);
+            if (isset($value)) {
+                $this->withMeta([
+                    'formatted_price_with_tax' => $value->withTax(true),
+                    'formatted_price_without_tax' => $value->withoutTax(true),
+                    'formatted_tax_amount' => $value->taxAmount(true),
+                    'formatted_total_price_with_tax' => $value->totalWithTax(true),
+                    'formatted_total_price_without_tax' => $value->totalWithoutTax(true),
+                    'formatted_total_tax_amount' => $value->totalTaxAmount(true),
+                ]);
 
-            return $value->asFloat();
+                return $value->asFloat();
+            }
+
+            return null;
         });
     }
 
