@@ -12,13 +12,16 @@ class PriceCast implements Castable
 {
     public ?int $price;
 
+    public ?int $priceWithoutTax;
+
     public ?int $tax = null;
 
     public ?int $quantity = null;
 
-    public function __construct(?int $data, ?int $tax, ?int $quantity)
+    public function __construct(?int $data, ?int $priceWithoutTax, ?int $tax, ?int $quantity)
     {
         $this->price = $data;
+        $this->priceWithoutTax = $priceWithoutTax;
         $this->tax = $tax;
         $this->quantity = $quantity;
     }
@@ -53,10 +56,21 @@ class PriceCast implements Castable
                     return null;
                 }
 
+                $priceWithoutTax = null;
+                if (isset($model::$priceWithoutTaxColumn)) {
+                    if ($model::$priceWithoutTaxColumn === true) {
+                        $priceWithoutTax = $attributes['price_without_tax'];
+                    }
+                    if (is_string($model::$priceWithoutTaxColumn)) {
+                        $priceWithoutTaxColumn = $model::$priceWithoutTaxColumn;
+                        $priceWithoutTax = $attributes[$priceWithoutTaxColumn];
+                    }
+                }
+
                 $taxColumn = $model::$taxColumn ?? 'tax';
                 $quantityColumn = $model::$quantityColumn ?? 'quantity';
 
-                return new PriceCast($value, $model->$taxColumn ?? null, $model->$quantityColumn ?? null);
+                return new PriceCast($value, $priceWithoutTax, $attributes[$taxColumn] ?? null, $attributes[$quantityColumn] ?? null);
             }
 
             /**
@@ -74,7 +88,12 @@ class PriceCast implements Castable
 
                 // Return price value if class is PriceCast
                 if (get_class($value) === PriceCast::class) {
-                    return $value->price;
+                    return (int) $value->asFloat();
+                }
+
+                // Return price value if class is Money
+                if (get_class($value) === Money::class) {
+                    return (int) $value->getAmount();
                 }
 
                 // If no conditions met just return value
@@ -101,13 +120,21 @@ class PriceCast implements Castable
 
     public function withoutTax(bool $formatted = false): Money|string|null
     {
-        if ($this->tax === null) {
+        if ($this->priceWithoutTax === null && $this->tax === null) {
             return null;
         }
 
-        $taxDivider = ($this->tax / 100) + 1;
+        $value = null;
 
-        $value = $this->withTax()->divide((string) $taxDivider);
+        if ($this->priceWithoutTax !== null) {
+            $value = new Money($this->priceWithoutTax, new Currency('EUR'));
+        }
+
+        if ($value === null) {
+            $taxDivider = ($this->tax / 100) + 1;
+
+            $value = $this->withTax()->divide((string) $taxDivider);
+        }
 
         if ($formatted) {
             return currency_format($value);
@@ -127,12 +154,13 @@ class PriceCast implements Castable
 
     public function taxAmount(bool $formatted = false): Money|string|null
     {
-        if ($this->tax === null) {
+        $withoutTax = $this->withoutTax();
+
+        if (!isset($withoutTax)) {
             return null;
         }
 
         $withTax = $this->withTax();
-        $withoutTax = $this->withoutTax();
 
         if (! isset($withTax, $withoutTax)) {
             return null;

@@ -1,15 +1,23 @@
 <template>
-  <span>{{ fieldValue }}</span>
+    <Price
+        :field="field"
+    />
 </template>
 
 <script>
-export default {
-  props: ['resourceName', 'field'],
+import Price from './Price.vue';
 
-  computed: {
-    fieldValue() {
-      return this.field.displayedAs || this.field.value
+export default {
+    props: ['resourceName', 'field'],
+
+    components: {
+        Price,
     },
-  }
+
+    computed: {
+        fieldValue() {
+            return this.field.displayedAs || this.field.value
+        },
+    }
 }
 </script>
