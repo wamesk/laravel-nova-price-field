@@ -18,12 +18,15 @@ class PriceCast implements Castable
 
     public ?int $quantity = null;
 
-    public function __construct(?int $data, ?int $priceWithoutTax, ?int $tax, ?int $quantity)
+    public string $currency;
+
+    public function __construct(?int $data, ?int $priceWithoutTax, ?int $tax, ?int $quantity, string $currency = 'EUR')
     {
         $this->price = $data;
         $this->priceWithoutTax = $priceWithoutTax;
         $this->tax = $tax;
         $this->quantity = $quantity;
+        $this->currency = $currency;
     }
 
     public function __get(string $name)
@@ -59,8 +62,13 @@ class PriceCast implements Castable
                 $priceWithoutTax = null;
                 if (isset($model::$priceWithoutTaxColumn)) {
                     if ($model::$priceWithoutTaxColumn === true) {
-                        $priceWithoutTax = $attributes['price_without_tax'];
+                        if (isset($attributes['price_without_tax'])) {
+                            $priceWithoutTax = $attributes['price_without_tax'];
+                        } elseif (in_array('price_without_tax', $model->getAppends())) {
+                            $priceWithoutTax = $model->price_without_tax;
+                        }
                     }
+
                     if (is_string($model::$priceWithoutTaxColumn)) {
                         $priceWithoutTaxColumn = $model::$priceWithoutTaxColumn;
                         $priceWithoutTax = $attributes[$priceWithoutTaxColumn];
@@ -70,7 +78,16 @@ class PriceCast implements Castable
                 $taxColumn = $model::$taxColumn ?? 'tax';
                 $quantityColumn = $model::$quantityColumn ?? 'quantity';
 
-                return new PriceCast($value, $priceWithoutTax, $attributes[$taxColumn] ?? null, $attributes[$quantityColumn] ?? null);
+                $currency = 'EUR';
+                if (isset($model::$currencyColumn)) {
+                    $currency = $attributes[$model::$currencyColumn];
+                } elseif (isset($model->currency_id)) {
+                    $currency = $model->currency_id;
+                } elseif (isset($model->currency)) {
+                    $currency = $model->currency;
+                }
+
+                return new PriceCast($value, $priceWithoutTax, $attributes[$taxColumn] ?? null, $attributes[$quantityColumn] ?? null, $currency);
             }
 
             /**
@@ -109,7 +126,7 @@ class PriceCast implements Castable
 
     public function withTax(bool $formatted = false): Money|string
     {
-        $value = new Money($this->price, new Currency('EUR'));
+        $value = new Money($this->price, new Currency($this->currency));
 
         if ($formatted) {
             return currency_format($value);
@@ -127,7 +144,7 @@ class PriceCast implements Castable
         $value = null;
 
         if ($this->priceWithoutTax !== null) {
-            $value = new Money($this->priceWithoutTax, new Currency('EUR'));
+            $value = new Money($this->priceWithoutTax, new Currency($this->currency));
         }
 
         if ($value === null) {
