@@ -105,7 +105,7 @@ class PriceCast implements Castable
 
                 // Return price value if class is PriceCast
                 if (get_class($value) === PriceCast::class) {
-                    return (int) $value->asFloat();
+                    return (int) $value->withTax()->getAmount();
                 }
 
                 // Return price value if class is Money
