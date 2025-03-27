@@ -13,8 +13,8 @@ class PriceResource
         $quantity = $price->quantity ?: 1;
 
         return [
-            'with_tax' => (string) ($price->withTax()->getAmount() / 100) * $quantity,
-            'without_tax' => (string) ($price->withoutTax()->getAmount() / 100) * $quantity,
+            'with_tax' => number_format((($price->withTax()->getAmount() / 100) * $quantity), 2, '.', ''),
+            'without_tax' => number_format((($price->withoutTax()->getAmount() / 100) * $quantity), 2, '.', ''),
             'tax' => (int) $price->tax(),
         ];
     }
