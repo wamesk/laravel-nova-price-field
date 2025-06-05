@@ -231,7 +231,7 @@ class PriceCast implements Castable
 
     public function totalWithoutTax(bool $formatted = false): Money|string|null
     {
-        if (! isset($this->quantity) && ! $this->withoutTax() !== null) {
+        if (! isset($this->quantity) || ! $this->withoutTax() !== null) {
             return null;
         }
 
