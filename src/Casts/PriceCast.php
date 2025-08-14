@@ -16,11 +16,11 @@ class PriceCast implements Castable
 
     public ?int $tax = null;
 
-    public ?int $quantity = null;
+    public float|int|null $quantity = null;
 
     public string $currency;
 
-    public function __construct(?int $data, ?int $priceWithoutTax, ?int $tax, ?int $quantity, string $currency = 'EUR')
+    public function __construct(?int $data, ?int $priceWithoutTax, ?int $tax, float|int|null $quantity, string $currency = 'EUR')
     {
         $this->price = $data;
         $this->priceWithoutTax = $priceWithoutTax;
@@ -228,7 +228,7 @@ class PriceCast implements Castable
             return null;
         }
 
-        $value = $this->withTax()->multiply($this->quantity);
+        $value = $this->withTax()->multiply((string) $this->quantity);
 
         if ($formatted) {
             return currency_format($value);
@@ -243,7 +243,7 @@ class PriceCast implements Castable
             return null;
         }
 
-        $value = $this->withoutTax()->multiply($this->quantity);
+        $value = $this->withoutTax()->multiply((string) $this->quantity);
 
         if ($formatted) {
             return currency_format($value);
