@@ -15,7 +15,7 @@
         v-model="value"
         v-if="!field.with_all_field_on_form"
       />
-      <div>
+      <div v-if="field.with_all_field_on_form">
         <label
             class="inline-block leading-tight space-x-1 mb-1 alternative-component-form-label"
             :for="currentField.attribute">
@@ -29,7 +29,6 @@
             :class="errorClasses"
             :placeholder="__('price_with_tax')"
             v-model="value"
-            v-if="field.with_all_field_on_form"
             @change="calculatePriceWithoutTax"
         />
 
@@ -46,7 +45,6 @@
             :class="errorClasses"
             :placeholder="__('price_without_tax')"
             v-model="valueWithoutTax"
-            v-if="field.with_all_field_on_form"
             @change="calculatePriceWithTax"
         />
 
@@ -63,7 +61,6 @@
             :class="errorClasses"
             :placeholder="__('tax_percentage')"
             v-model="valueTax"
-            v-if="field.with_all_field_on_form"
             @change="calculatePriceWithTax"
         />
       </div>

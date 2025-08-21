@@ -188,12 +188,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
 var _hoisted_1 = ["id", "placeholder"];
-var _hoisted_2 = ["for"];
-var _hoisted_3 = ["id", "name", "placeholder"];
-var _hoisted_4 = ["for"];
-var _hoisted_5 = ["id", "name", "placeholder"];
-var _hoisted_6 = ["for"];
-var _hoisted_7 = ["id", "name", "placeholder"];
+var _hoisted_2 = {
+  key: 1
+};
+var _hoisted_3 = ["for"];
+var _hoisted_4 = ["id", "name", "placeholder"];
+var _hoisted_5 = ["for"];
+var _hoisted_6 = ["id", "name", "placeholder"];
+var _hoisted_7 = ["for"];
+var _hoisted_8 = ["id", "name", "placeholder"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DefaultField = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DefaultField");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DefaultField, {
@@ -212,11 +215,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
           return _ctx.value = $event;
         })
-      }, null, 10 /* CLASS, PROPS */, _hoisted_1)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.value]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, null, 10 /* CLASS, PROPS */, _hoisted_1)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.value]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.field.with_all_field_on_form ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "inline-block leading-tight space-x-1 mb-1 alternative-component-form-label",
         "for": _ctx.currentField.attribute
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('price_with_tax')), 9 /* TEXT, PROPS */, _hoisted_2), $props.field.with_all_field_on_form ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", {
-        key: 0,
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('price_with_tax')), 9 /* TEXT, PROPS */, _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         id: _ctx.currentField.attribute,
         name: _ctx.currentField.attribute,
         type: "text",
@@ -228,11 +230,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onChange: _cache[2] || (_cache[2] = function () {
           return $options.calculatePriceWithoutTax && $options.calculatePriceWithoutTax.apply($options, arguments);
         })
-      }, null, 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_3)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.value]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, null, 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.value]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "inline-block leading-tight space-x-1 mt-2 mb-1 alternative-component-form-label",
         "for": _ctx.currentField.attribute + '_without_tax'
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('price_without_tax')), 9 /* TEXT, PROPS */, _hoisted_4), $props.field.with_all_field_on_form ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", {
-        key: 1,
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('price_without_tax')), 9 /* TEXT, PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         id: _ctx.currentField.attribute + '_without_tax',
         name: _ctx.currentField.attribute + '_without_tax',
         type: "text",
@@ -244,11 +245,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onChange: _cache[4] || (_cache[4] = function () {
           return $options.calculatePriceWithTax && $options.calculatePriceWithTax.apply($options, arguments);
         })
-      }, null, 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_5)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.valueWithoutTax]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, null, 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.valueWithoutTax]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "inline-block leading-tight space-x-1 mt-2 mb-1 alternative-component-form-label",
         "for": _ctx.currentField.attribute + '_tax_percentage'
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('tax_percentage')), 9 /* TEXT, PROPS */, _hoisted_6), $props.field.with_all_field_on_form ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", {
-        key: 2,
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('tax_percentage')), 9 /* TEXT, PROPS */, _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         id: _ctx.currentField.attribute + '_tax_percentage',
         name: _ctx.currentField.attribute + '_tax_percentage',
         type: "text",
@@ -260,7 +260,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onChange: _cache[6] || (_cache[6] = function () {
           return $options.calculatePriceWithTax && $options.calculatePriceWithTax.apply($options, arguments);
         })
-      }, null, 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_7)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.valueTax]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])];
+      }, null, 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_8), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.valueTax]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["field", "errors", "show-help-text", "full-width-content"]);
