@@ -1,7 +1,7 @@
 {
     "name": "wamesk/laravel-nova-price-field",
     "description": "A Laravel Nova price field with moneyphp/money library.",
-    "version": "1.1.7",
+    "version": "1.2.0",
     "keywords": [
         "laravel",
         "nova"

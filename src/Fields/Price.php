@@ -4,20 +4,17 @@ namespace Wame\LaravelNovaPriceField\Fields;
 
 use Illuminate\Validation\ValidationException;
 use Laravel\Nova\Fields\Field;
-use Laravel\Nova\Fields\FieldFilterable;
 use Laravel\Nova\Fields\SupportsDependentFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Price extends Field
 {
     use SupportsDependentFields;
-    use FieldFilterable;
 
-    /**
-     * The field's component.
-     *
-     * @var string
-     */
+    protected ?string $withoutTaxColumn = null;
+
+    protected ?string $taxColumn = null;
+
     public $component = 'laravel-nova-price-field';
 
     public function __construct($name, $attribute = null, ?callable $resolveCallback = null)
@@ -54,6 +51,16 @@ class Price extends Field
             }
 
             $model->{$attribute} = $value;
+
+            if (isset($this->withoutTaxColumn)) {
+                $withoutTaxColumn = $this->withoutTaxColumn;
+                $model->$this->$withoutTaxColumn = $request->input($this->attribute.'_without_tax');
+            }
+
+            if (isset($this->taxColumn)) {
+                $taxColumn = $this->taxColumn;
+                $model->$taxColumn = $request->input($this->attribute.'_tax');
+            }
         }
     }
 
@@ -87,8 +94,20 @@ class Price extends Field
         ]);
     }
 
-    protected function makeFilter(NovaRequest $request)
+    public function withAllFieldOnForm(?string $withoutTaxColumn = null, ?string $taxColumn = null): Price
     {
+        $this->withoutTaxColumn = $withoutTaxColumn;
+        $this->taxColumn = $taxColumn;
 
+        return $this->withMeta([
+            'with_all_field_on_form' => true,
+        ]);
+    }
+
+    public function setTax($tax): Price
+    {
+        return $this->withMeta([
+            'taxValue' => $tax,
+        ]);
     }
 }

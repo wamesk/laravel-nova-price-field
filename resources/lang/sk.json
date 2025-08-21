@@ -1,5 +1,8 @@
 {
     "with_tax": ":price s DPH",
     "without_tax": ":price bez DPH",
-    "tax_amount": ":price DPH"
+    "tax_amount": ":price DPH",
+    "price_with_tax": "Cena s DPH",
+    "price_without_tax": "Cena bez DPH",
+    "tax_percentage": "DPH v %"
 }

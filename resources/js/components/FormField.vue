@@ -1,45 +1,134 @@
 <template>
   <DefaultField
-    :field="field"
+    :field="currentField"
     :errors="errors"
     :show-help-text="showHelpText"
     :full-width-content="fullWidthContent"
   >
     <template #field>
       <input
-        :id="field.attribute"
+        :id="currentField.attribute"
         type="text"
         class="w-full form-control form-input form-control-bordered"
         :class="errorClasses"
         :placeholder="currentField.name"
         v-model="value"
+        v-if="!field.with_all_field_on_form"
       />
+      <div>
+        <label
+            class="inline-block leading-tight space-x-1 mb-1 alternative-component-form-label"
+            :for="currentField.attribute">
+            {{__('price_with_tax')}}
+        </label>
+        <input
+            :id="currentField.attribute"
+            :name="currentField.attribute"
+            type="text"
+            class="w-full form-control form-input form-control-bordered"
+            :class="errorClasses"
+            :placeholder="__('price_with_tax')"
+            v-model="value"
+            v-if="field.with_all_field_on_form"
+            @change="calculatePriceWithoutTax"
+        />
+
+        <label
+            class="inline-block leading-tight space-x-1 mt-2 mb-1 alternative-component-form-label"
+            :for="currentField.attribute+'_without_tax'">
+            {{__('price_without_tax')}}
+        </label>
+        <input
+            :id="currentField.attribute+'_without_tax'"
+            :name="currentField.attribute+'_without_tax'"
+            type="text"
+            class="w-full form-control form-input form-control-bordered"
+            :class="errorClasses"
+            :placeholder="__('price_without_tax')"
+            v-model="valueWithoutTax"
+            v-if="field.with_all_field_on_form"
+            @change="calculatePriceWithTax"
+        />
+
+        <label
+            class="inline-block leading-tight space-x-1 mt-2 mb-1 alternative-component-form-label"
+            :for="currentField.attribute+'_tax_percentage'">
+            {{__('tax_percentage')}}
+        </label>
+        <input
+            :id="currentField.attribute+'_tax_percentage'"
+            :name="currentField.attribute+'_tax_percentage'"
+            type="text"
+            class="w-full form-control form-input form-control-bordered"
+            :class="errorClasses"
+            :placeholder="__('tax_percentage')"
+            v-model="valueTax"
+            v-if="field.with_all_field_on_form"
+            @change="calculatePriceWithTax"
+        />
+      </div>
     </template>
   </DefaultField>
 </template>
 
 <script>
 import { DependentFormField, HandlesValidationErrors } from 'laravel-nova'
+import {round} from "lodash";
 
 export default {
   mixins: [DependentFormField, HandlesValidationErrors],
 
   props: ['resourceName', 'resourceId', 'field'],
 
+  data() {
+    return {
+      valueWithoutTax: null,
+      valueTax: null,
+    }
+  },
+
+  watch: {
+    // whenever question changes, this function will run
+    currentField(newCurrentField, oldCurrentField) {
+      if (newCurrentField.taxValue !== oldCurrentField.taxValue) {
+        this.valueTax = newCurrentField.taxValue;
+        this.calculatePriceWithoutTax();
+      }
+    },
+  },
+
   methods: {
     /*
      * Set the initial, internal value for the field.
      */
     setInitialValue() {
-      this.value = this.currentField.value || ''
+      this.value = this.currentField.value || '';
+      this.valueTax = this.currentField.taxValue || '';
+      this.calculatePriceWithoutTax();
     },
 
     /**
      * Fill the given FormData object with the field's internal value.
      */
     fill(formData) {
-      formData.append(this.fieldAttribute, this.value || '')
+      formData.append(this.fieldAttribute, this.value || null)
+      formData.append(this.fieldAttribute+'_without_tax', this.valueWithoutTax || null)
+      formData.append(this.fieldAttribute+'_tax', this.valueTax || null)
     },
+
+    calculatePriceWithoutTax() {
+      this.valueWithoutTax = round(this.value / this.getTaxCalculator(), 2);
+      console.log('calculatePriceWithoutTax')
+    },
+
+    calculatePriceWithTax() {
+      this.value = round(this.valueWithoutTax * this.getTaxCalculator(), 2);
+      console.log('calculatePriceWithTax')
+    },
+
+    getTaxCalculator() {
+      return (this.valueTax / 100) + 1;
+    }
   },
 }
 </script>
