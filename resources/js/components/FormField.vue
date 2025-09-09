@@ -49,6 +49,7 @@
         />
 
         <label
+            v-if="!currentField.hide_tax_form_field"
             class="inline-block leading-tight space-x-1 mt-2 mb-1 alternative-component-form-label"
             :for="currentField.attribute+'_tax_percentage'">
             {{__('tax_percentage')}}
@@ -61,6 +62,7 @@
             :class="errorClasses"
             :placeholder="__('tax_percentage')"
             v-model="valueTax"
+            :hidden="currentField.hide_tax_form_field"
             @change="calculatePriceWithTax"
         />
       </div>
@@ -70,7 +72,7 @@
 
 <script>
 import { DependentFormField, HandlesValidationErrors } from 'laravel-nova'
-import {round} from "lodash";
+import {isString, round} from "lodash";
 
 export default {
   mixins: [DependentFormField, HandlesValidationErrors],
@@ -114,13 +116,21 @@ export default {
     },
 
     calculatePriceWithoutTax() {
+      if (this.value === null || this.value === '') {
+        this.valueWithoutTax = null;
+        return;
+      }
+
       this.valueWithoutTax = round(this.value / this.getTaxCalculator(), 2);
-      console.log('calculatePriceWithoutTax')
     },
 
     calculatePriceWithTax() {
+      if (this.valueWithoutTax === null || this.valueWithoutTax === '') {
+        this.value = null;
+        return;
+      }
+
       this.value = round(this.valueWithoutTax * this.getTaxCalculator(), 2);
-      console.log('calculatePriceWithTax')
     },
 
     getTaxCalculator() {

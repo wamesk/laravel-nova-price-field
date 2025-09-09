@@ -110,4 +110,11 @@ class Price extends Field
             'taxValue' => $tax,
         ]);
     }
+
+    public function hideTaxFormField(): Price
+    {
+        return $this->withMeta([
+            'hide_tax_form_field' => true,
+        ]);
+    }
 }

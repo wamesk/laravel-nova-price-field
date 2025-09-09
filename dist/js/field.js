@@ -76,12 +76,18 @@ __webpack_require__.r(__webpack_exports__);
       formData.append(this.fieldAttribute + '_tax', this.valueTax || null);
     },
     calculatePriceWithoutTax: function calculatePriceWithoutTax() {
+      if (this.value === null || this.value === '') {
+        this.valueWithoutTax = null;
+        return;
+      }
       this.valueWithoutTax = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.round)(this.value / this.getTaxCalculator(), 2);
-      console.log('calculatePriceWithoutTax');
     },
     calculatePriceWithTax: function calculatePriceWithTax() {
+      if (this.valueWithoutTax === null || this.valueWithoutTax === '') {
+        this.value = null;
+        return;
+      }
       this.value = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.round)(this.valueWithoutTax * this.getTaxCalculator(), 2);
-      console.log('calculatePriceWithTax');
     },
     getTaxCalculator: function getTaxCalculator() {
       return this.valueTax / 100 + 1;
@@ -196,7 +202,7 @@ var _hoisted_4 = ["id", "name", "placeholder"];
 var _hoisted_5 = ["for"];
 var _hoisted_6 = ["id", "name", "placeholder"];
 var _hoisted_7 = ["for"];
-var _hoisted_8 = ["id", "name", "placeholder"];
+var _hoisted_8 = ["id", "name", "placeholder", "hidden"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DefaultField = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DefaultField");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DefaultField, {
@@ -245,10 +251,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onChange: _cache[4] || (_cache[4] = function () {
           return $options.calculatePriceWithTax && $options.calculatePriceWithTax.apply($options, arguments);
         })
-      }, null, 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.valueWithoutTax]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, null, 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.valueWithoutTax]]), !_ctx.currentField.hide_tax_form_field ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("label", {
+        key: 0,
         "class": "inline-block leading-tight space-x-1 mt-2 mb-1 alternative-component-form-label",
         "for": _ctx.currentField.attribute + '_tax_percentage'
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('tax_percentage')), 9 /* TEXT, PROPS */, _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('tax_percentage')), 9 /* TEXT, PROPS */, _hoisted_7)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         id: _ctx.currentField.attribute + '_tax_percentage',
         name: _ctx.currentField.attribute + '_tax_percentage',
         type: "text",
@@ -257,6 +264,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
           return $data.valueTax = $event;
         }),
+        hidden: _ctx.currentField.hide_tax_form_field,
         onChange: _cache[6] || (_cache[6] = function () {
           return $options.calculatePriceWithTax && $options.calculatePriceWithTax.apply($options, arguments);
         })
