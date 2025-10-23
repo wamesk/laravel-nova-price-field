@@ -4,5 +4,6 @@
     "tax_amount": ":price DPH",
     "price_with_tax": "Cena s DPH",
     "price_without_tax": "Cena bez DPH",
-    "tax_percentage": "DPH v %"
+    "tax_percentage": "DPH v %",
+    "tax_rate_type": "Typ sadzby"
 }

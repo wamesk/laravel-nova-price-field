@@ -15,6 +15,8 @@ class Price extends Field
 
     protected ?string $taxColumn = null;
 
+    protected ?string $vatRateTypeColumn = null;
+
     public $component = 'laravel-nova-price-field';
 
     public function __construct($name, $attribute = null, ?callable $resolveCallback = null)
@@ -60,6 +62,11 @@ class Price extends Field
             if (isset($this->taxColumn)) {
                 $taxColumn = $this->taxColumn;
                 $model->$taxColumn = $request->input($this->attribute.'_tax');
+            }
+
+            if (isset($this->vatRateTypeColumn)) {
+                $taxColumn = $this->vatRateTypeColumn;
+                $model->$taxColumn = $request->input($this->attribute.'_vat_rate_type');
             }
         }
     }
@@ -115,6 +122,15 @@ class Price extends Field
     {
         return $this->withMeta([
             'hide_tax_form_field' => true,
+        ]);
+    }
+
+    public function taxFieldAsSelect(array|callable $vatRateTypes, ?string $vatRateTypeColumn): Price
+    {
+        $this->vatRateTypeColumn = $vatRateTypeColumn;
+
+        return $this->withMeta([
+            'vat_rate_types' => is_array($vatRateTypes) ? $vatRateTypes : $vatRateTypes(),
         ]);
     }
 }
