@@ -104,5 +104,24 @@ Price::make()
     ], 'vat_rate_type')
 ```
 
+You have option to change save value to not be ID of option by the value (key of select) by adding true to 3rd parameter ($saveAsValue).
+
+```php
+use Wame\LaravelNovaPriceField\Fields\Price;
+....
+Price::make()
+    ->withAllFieldOnForm()
+    ->taxFieldAsSelect([
+        10 => [
+            'id' => 'reduced',
+            'name' => 'Reduced tax (10%)',
+        ],
+        23 => [
+            'id' => 'standard',
+            'name' => 'Standard tax (23%)',
+        ],
+    ], 'vat_rate_type', true)
+```
+
 
 
