@@ -6,6 +6,7 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Fields\SupportsDependentFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Wame\LaravelNovaPriceField\Casts\PriceCast;
 
 class Price extends Field
 {
@@ -23,12 +24,14 @@ class Price extends Field
     {
         parent::__construct($name, $attribute, $resolveCallback);
 
-        $this->resolveUsing(function ($value, $resource) {
+
+        $this->resolveUsing(function (?PriceCast $value, $resource) {
             if (isset($value)) {
                 $this->withMeta([
                     'formatted_price_with_tax' => $value->withTax(true),
                     'formatted_price_without_tax' => $value->withoutTax(true),
                     'formatted_tax_amount' => $value->taxAmount(true),
+                    'formatted_tax_percentage' => $value->tax(true),
                     'formatted_total_price_with_tax' => $value->totalWithTax(true),
                     'formatted_total_price_without_tax' => $value->totalWithoutTax(true),
                     'formatted_total_tax_amount' => $value->totalTaxAmount(true),
@@ -125,9 +128,10 @@ class Price extends Field
         ]);
     }
 
-    public function taxFieldAsSelect(array|callable $vatRateTypes, ?string $vatRateTypeColumn): Price
+    public function taxFieldAsSelect(array|callable $vatRateTypes, ?string $vatRateTypeColumn, bool $saveAsValue = false): Price
     {
-        $this->vatRateTypeColumn = $vatRateTypeColumn;
+        $saveColumn = $saveAsValue ? 'taxColumn' : 'vatRateTypeColumn';
+        $this->$saveColumn = $vatRateTypeColumn;
 
         return $this->withMeta([
             'vat_rate_types' => is_array($vatRateTypes) ? $vatRateTypes : $vatRateTypes(),
