@@ -141,7 +141,7 @@ export default {
       formData.append(this.fieldAttribute, this.value || null)
       formData.append(this.fieldAttribute+'_without_tax', this.valueWithoutTax || null)
       formData.append(this.fieldAttribute+'_tax', this.valueTax || null)
-      formData.append(this.fieldAttribute+'_vat_rate_type', this.currentField.vat_rate_types[this.valueTax]?.id || null)
+      formData.append(this.fieldAttribute+'_vat_rate_type', this.currentField.vat_rate_types?.[this.valueTax]?.id || null)
     },
 
     calculatePriceWithoutTax() {
@@ -149,6 +149,8 @@ export default {
         this.valueWithoutTax = null;
         return;
       }
+
+      this.value = round(this.value, 2);
 
       this.valueWithoutTax = round(this.value / this.getTaxCalculator(), 2);
     },
@@ -158,6 +160,8 @@ export default {
         this.value = null;
         return;
       }
+
+      this.valueWithoutTax = round(this.valueWithoutTax, 2);
 
       this.value = round(this.valueWithoutTax * this.getTaxCalculator(), 2);
     },

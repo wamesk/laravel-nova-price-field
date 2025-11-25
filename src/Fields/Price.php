@@ -74,21 +74,21 @@ class Price extends Field
         }
     }
 
-    public function asTotal(): Price
+    public function asTotal(): self
     {
         return $this->withMeta([
             'show_total' => true,
         ]);
     }
 
-    public function withoutTaxAmount(): Price
+    public function withoutTaxAmount(): self
     {
         return $this->withMeta([
             'without_tax_amount' => true,
         ]);
     }
 
-    public function onlyWithTax(): Price
+    public function onlyWithTax(): self
     {
         return $this->withMeta([
             'only_with_tax' => true,
@@ -96,7 +96,7 @@ class Price extends Field
         ]);
     }
 
-    public function onlyWithoutTax(): Price
+    public function onlyWithoutTax(): self
     {
         return $this->withMeta([
             'only_without_tax' => true,
@@ -104,7 +104,7 @@ class Price extends Field
         ]);
     }
 
-    public function withAllFieldOnForm(?string $withoutTaxColumn = null, ?string $taxColumn = null): Price
+    public function withAllFieldOnForm(?string $withoutTaxColumn = null, ?string $taxColumn = null): self
     {
         $this->withoutTaxColumn = $withoutTaxColumn;
         $this->taxColumn = $taxColumn;
@@ -114,21 +114,21 @@ class Price extends Field
         ]);
     }
 
-    public function setTax($tax): Price
+    public function setTax($tax): self
     {
         return $this->withMeta([
             'taxValue' => $tax,
         ]);
     }
 
-    public function hideTaxFormField(): Price
+    public function hideTaxFormField(): self
     {
         return $this->withMeta([
             'hide_tax_form_field' => true,
         ]);
     }
 
-    public function taxFieldAsSelect(array|callable $vatRateTypes, ?string $vatRateTypeColumn, bool $saveAsValue = false): Price
+    public function taxFieldAsSelect(array|callable $vatRateTypes, ?string $vatRateTypeColumn, bool $saveAsValue = false): self
     {
         $saveColumn = $saveAsValue ? 'taxColumn' : 'vatRateTypeColumn';
         $this->$saveColumn = $vatRateTypeColumn;
