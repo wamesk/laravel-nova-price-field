@@ -32,10 +32,10 @@ export default {
         </slot>
         <slot name="value">
             <p
-                v-if="field.formatted_tax_amount && !field.without_tax_amount && !shouldDisplayAsHtml"
+                v-if="field.formatted_tax_amount && !field.only_with_tax && !field.without_tax_amount && !shouldDisplayAsHtml"
                 class="flex items-center"
             >
-                {{ __('tax_amount', {price: field.formatted_tax_amount}) }} ({{ field.formatted_tax_percentage }})
+                {{ __('tax_amount', {price: field.formatted_tax_amount}) }} <span v-if="!field.hide_tax_percentage">({{ field.formatted_tax_percentage }})</span>
             </p>
         </slot>
     </div>
@@ -63,10 +63,10 @@ export default {
         </slot>
         <slot name="value">
             <p
-                v-if="field.formatted_total_tax_amount && !field.without_tax_amount && !shouldDisplayAsHtml"
+                v-if="field.formatted_total_tax_amount && !field.only_with_tax && !field.without_tax_amount && !shouldDisplayAsHtml"
                 class="flex items-center"
             >
-                {{ __('tax_amount', {price: field.formatted_total_tax_amount}) }} ({{ field.formatted_tax_percentage }})
+                {{ __('tax_amount', {price: field.formatted_total_tax_amount}) }} <span v-if="!field.hide_tax_percentage">({{ field.formatted_tax_percentage }})</span>
             </p>
         </slot>
     </div>

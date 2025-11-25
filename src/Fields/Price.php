@@ -128,6 +128,13 @@ class Price extends Field
         ]);
     }
 
+    public function hideTaxPercentage(): self
+    {
+        return $this->withMeta([
+            'hide_tax_percentage' => true,
+        ]);
+    }
+
     public function taxFieldAsSelect(array|callable $vatRateTypes, ?string $vatRateTypeColumn, bool $saveAsValue = false): self
     {
         $saveColumn = $saveAsValue ? 'taxColumn' : 'vatRateTypeColumn';

@@ -367,23 +367,29 @@ var _hoisted_6 = {
   "class": "flex items-center"
 };
 var _hoisted_7 = {
-  key: 1
+  key: 0
 };
 var _hoisted_8 = {
+  key: 1
+};
+var _hoisted_9 = {
   key: 0,
   "class": "flex items-center"
 };
-var _hoisted_9 = ["innerHTML"];
-var _hoisted_10 = {
-  key: 2
-};
+var _hoisted_10 = ["innerHTML"];
 var _hoisted_11 = {
-  key: 0,
-  "class": "flex items-center"
+  key: 2
 };
 var _hoisted_12 = {
   key: 0,
   "class": "flex items-center"
+};
+var _hoisted_13 = {
+  key: 0,
+  "class": "flex items-center"
+};
+var _hoisted_14 = {
+  key: 0
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [!$props.field.show_total ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "value", {}, function () {
@@ -398,24 +404,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       price: $props.field.formatted_price_without_tax
     })), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "value", {}, function () {
-    return [$props.field.formatted_tax_amount && !$props.field.without_tax_amount && !_ctx.shouldDisplayAsHtml ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('tax_amount', {
+    return [$props.field.formatted_tax_amount && !$props.field.only_with_tax && !$props.field.without_tax_amount && !_ctx.shouldDisplayAsHtml ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('tax_amount', {
       price: $props.field.formatted_tax_amount
-    })) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.field.formatted_tax_percentage) + ") ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.field.show_total ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "value", {}, function () {
-    return [$props.field.formatted_total_price_with_tax && !$props.field.only_without_tax && !_ctx.shouldDisplayAsHtml ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('with_tax', {
+    })) + " ", 1 /* TEXT */), !$props.field.hide_tax_percentage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.field.formatted_tax_percentage) + ")", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.field.show_total ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "value", {}, function () {
+    return [$props.field.formatted_total_price_with_tax && !$props.field.only_without_tax && !_ctx.shouldDisplayAsHtml ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('with_tax', {
       price: $props.field.formatted_total_price_with_tax
     })), 1 /* TEXT */)) : $props.field.value && _ctx.shouldDisplayAsHtml ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       innerHTML: $props.field.value
-    }, null, 8 /* PROPS */, _hoisted_9)) : !$props.field.only_without_tax ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_10, "—")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+    }, null, 8 /* PROPS */, _hoisted_10)) : !$props.field.only_without_tax ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_11, "—")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "value", {}, function () {
-    return [$props.field.formatted_total_price_without_tax && !$props.field.only_with_tax && !_ctx.shouldDisplayAsHtml ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('without_tax', {
+    return [$props.field.formatted_total_price_without_tax && !$props.field.only_with_tax && !_ctx.shouldDisplayAsHtml ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('without_tax', {
       price: $props.field.formatted_total_price_without_tax
     })), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "value", {}, function () {
-    return [$props.field.formatted_total_tax_amount && !$props.field.without_tax_amount && !_ctx.shouldDisplayAsHtml ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('tax_amount', {
+    return [$props.field.formatted_total_tax_amount && !$props.field.only_with_tax && !$props.field.without_tax_amount && !_ctx.shouldDisplayAsHtml ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('tax_amount', {
       price: $props.field.formatted_total_tax_amount
-    })) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.field.formatted_tax_percentage) + ") ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+    })) + " ", 1 /* TEXT */), !$props.field.hide_tax_percentage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.field.formatted_tax_percentage) + ")", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
   })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */);
 }
 
