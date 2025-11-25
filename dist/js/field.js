@@ -367,7 +367,10 @@ var _hoisted_6 = {
   "class": "flex items-center"
 };
 var _hoisted_7 = {
-  key: 0
+  key: 0,
+  style: {
+    "padding-left": "5px"
+  }
 };
 var _hoisted_8 = {
   key: 1
@@ -389,7 +392,10 @@ var _hoisted_13 = {
   "class": "flex items-center"
 };
 var _hoisted_14 = {
-  key: 0
+  key: 0,
+  style: {
+    "padding-left": "5px"
+  }
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [!$props.field.show_total ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "value", {}, function () {
