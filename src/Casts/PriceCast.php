@@ -103,10 +103,12 @@ class PriceCast implements Castable
              */
             public function set(Model $model, string $key, mixed $value, array $attributes): ?int
             {
-                // Convert from EUR to cents by multiplying
+                // Convert from EUR to cents by multiplying.
+                // round() prevents IEEE-754 float artifacts from truncating a cent
+                // (e.g. 0.29 * 100 = 28.99999... → would become 28 without round).
                 if (is_string($value) || is_int($value) || is_float($value)) {
                     $value = (float) $value;
-                    $value = (int) ($value * 100);
+                    $value = (int) round($value * 100);
 
                     return $value;
                 }
