@@ -86,6 +86,27 @@ Both casts share the same base class (`AbstractPriceCast`) and resolve the curre
 
 ## Nova Field
 
+### Auto-detection of cast type
+
+The `Price` field automatically detects which cast is used on the model attribute and adjusts its behaviour accordingly — no manual configuration needed.
+
+| Cast | Behaviour |
+|---|---|
+| `PriceCast` | Full tax UI: shows `withTax`, `withoutTax`, tax amount, tax percentage |
+| `SimplePriceCast` | Tax UI disabled automatically; shows only the formatted price |
+
+If `->withAllFieldOnForm()` is called on a field backed by `SimplePriceCast`, the tax input sub-fields are suppressed automatically (the `with_all_field_on_form` meta is overridden to `false` at resolve time).
+
+```php
+// PriceCast — full tax fields shown automatically
+Price::make('Price', 'price'),
+
+// SimplePriceCast — tax fields hidden automatically, even with withAllFieldOnForm()
+Price::make('Planned cost', 'planned_cost'),
+```
+
+
+
 Shows a single input for price. When viewing on detail or index, shows price with currency suffix.
 
 ```php

@@ -1,16 +1,22 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Wame\LaravelNovaPriceField\Fields;
 
 use Illuminate\Validation\ValidationException;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Fields\SupportsDependentFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Wame\LaravelNovaPriceField\Casts\AbstractPriceCast;
 use Wame\LaravelNovaPriceField\Casts\PriceCast;
+use Wame\LaravelNovaPriceField\Casts\SimplePriceCast;
 
 class Price extends Field
 {
     use SupportsDependentFields;
+
+    public $component = 'laravel-nova-price-field';
 
     protected ?string $withoutTaxColumn = null;
 
@@ -18,60 +24,39 @@ class Price extends Field
 
     protected ?string $vatRateTypeColumn = null;
 
-    public $component = 'laravel-nova-price-field';
-
     public function __construct($name, $attribute = null, ?callable $resolveCallback = null)
     {
         parent::__construct($name, $attribute, $resolveCallback);
 
 
-        $this->resolveUsing(function (?PriceCast $value, $resource) {
-            if (isset($value)) {
+        $this->resolveUsing(function (?AbstractPriceCast $value, $resource) {
+            if (!isset($value)) {
+                return null;
+            }
+
+            if ($value instanceof SimplePriceCast) {
                 $this->withMeta([
-                    'formatted_price_with_tax' => $value->withTax(true),
-                    'formatted_price_without_tax' => $value->withoutTax(true),
-                    'formatted_tax_amount' => $value->taxAmount(true),
-                    'formatted_tax_percentage' => $value->tax(true),
-                    'formatted_total_price_with_tax' => $value->totalWithTax(true),
-                    'formatted_total_price_without_tax' => $value->totalWithoutTax(true),
-                    'formatted_total_tax_amount' => $value->totalTaxAmount(true),
+                    'simple_price_cast' => true,
+                    'formatted_price_with_tax' => $value->formatted(),
+                    'with_all_field_on_form' => false,
                 ]);
 
                 return $value->asFloat();
             }
 
-            return null;
+            /** @var PriceCast $value */
+            $this->withMeta([
+                'formatted_price_with_tax' => $value->withTax(true),
+                'formatted_price_without_tax' => $value->withoutTax(true),
+                'formatted_tax_amount' => $value->taxAmount(true),
+                'formatted_tax_percentage' => $value->tax(true),
+                'formatted_total_price_with_tax' => $value->totalWithTax(true),
+                'formatted_total_price_without_tax' => $value->totalWithoutTax(true),
+                'formatted_total_tax_amount' => $value->totalTaxAmount(true),
+            ]);
+
+            return $value->asFloat();
         });
-    }
-
-    /**
-     * @throws ValidationException
-     */
-    protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute): void
-    {
-        $value = $request->input($requestAttribute);
-        if (isset($value)) {
-            if (! is_numeric($value)) {
-                throw ValidationException::withMessages([$attribute => __('validation.numeric', ['attribute' => $requestAttribute])]);
-            }
-
-            $model->{$attribute} = $value;
-
-            if (isset($this->withoutTaxColumn)) {
-                $withoutTaxColumn = $this->withoutTaxColumn;
-                $model->$this->$withoutTaxColumn = $request->input($this->attribute.'_without_tax');
-            }
-
-            if (isset($this->taxColumn)) {
-                $taxColumn = $this->taxColumn;
-                $model->$taxColumn = $request->input($this->attribute.'_tax');
-            }
-
-            if (isset($this->vatRateTypeColumn)) {
-                $taxColumn = $this->vatRateTypeColumn;
-                $model->$taxColumn = $request->input($this->attribute.'_vat_rate_type');
-            }
-        }
     }
 
     public function asTotal(): self
@@ -138,10 +123,43 @@ class Price extends Field
     public function taxFieldAsSelect(array|callable $vatRateTypes, ?string $vatRateTypeColumn, bool $saveAsValue = false): self
     {
         $saveColumn = $saveAsValue ? 'taxColumn' : 'vatRateTypeColumn';
-        $this->$saveColumn = $vatRateTypeColumn;
+        $this->{$saveColumn} = $vatRateTypeColumn;
 
         return $this->withMeta([
             'vat_rate_types' => is_array($vatRateTypes) ? $vatRateTypes : $vatRateTypes(),
         ]);
+    }
+
+    /**
+     * @throws ValidationException
+     * @param mixed $requestAttribute
+     * @param mixed $model
+     * @param mixed $attribute
+     */
+    protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute): void
+    {
+        $value = $request->input($requestAttribute);
+        if (isset($value)) {
+            if (!is_numeric($value)) {
+                throw ValidationException::withMessages([$attribute => __('validation.numeric', ['attribute' => $requestAttribute])]);
+            }
+
+            $model->{$attribute} = $value;
+
+            if (isset($this->withoutTaxColumn)) {
+                $withoutTaxColumn = $this->withoutTaxColumn;
+                $model->{$this}->{$withoutTaxColumn} = $request->input($this->attribute . '_without_tax');
+            }
+
+            if (isset($this->taxColumn)) {
+                $taxColumn = $this->taxColumn;
+                $model->{$taxColumn} = $request->input($this->attribute . '_tax');
+            }
+
+            if (isset($this->vatRateTypeColumn)) {
+                $taxColumn = $this->vatRateTypeColumn;
+                $model->{$taxColumn} = $request->input($this->attribute . '_vat_rate_type');
+            }
+        }
     }
 }
