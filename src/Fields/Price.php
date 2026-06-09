@@ -36,7 +36,6 @@ class Price extends Field
 
             if ($value instanceof SimplePriceCast) {
                 $this->withMeta([
-                    'simple_price_cast' => true,
                     'formatted_price_with_tax' => $value->formatted(),
                     'with_all_field_on_form' => false,
                 ]);
