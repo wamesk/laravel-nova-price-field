@@ -82,7 +82,16 @@ class PriceCast extends AbstractPriceCast
                     $tax = null;
                 }
 
-                return new PriceCast($value, $priceWithoutTax, $tax, $attributes[$quantityColumn] ?? null, $currency);
+                $tax = (null === $tax || '' === $tax) ? null : (int) $tax;
+
+                $quantity = $attributes[$quantityColumn] ?? null;
+                if (null === $quantity || '' === $quantity) {
+                    $quantity = null;
+                } elseif (is_numeric($quantity)) {
+                    $quantity += 0;
+                }
+
+                return new PriceCast($value, $priceWithoutTax, $tax, $quantity, $currency);
             }
 
             public function set(Model $model, string $key, mixed $value, array $attributes): ?int

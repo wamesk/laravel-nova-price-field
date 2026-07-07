@@ -138,27 +138,34 @@ class Price extends Field
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute): void
     {
         $value = $request->input($requestAttribute);
-        if (isset($value)) {
-            if (!is_numeric($value)) {
-                throw ValidationException::withMessages([$attribute => __('validation.numeric', ['attribute' => $requestAttribute])]);
+
+        if (null === $value || '' === $value || 'null' === $value) {
+            if ($this->nullable) {
+                $model->{$attribute} = null;
             }
 
-            $model->{$attribute} = $value;
+            return;
+        }
 
-            if (isset($this->withoutTaxColumn)) {
-                $withoutTaxColumn = $this->withoutTaxColumn;
-                $model->{$this}->{$withoutTaxColumn} = $request->input($this->attribute . '_without_tax');
-            }
+        if (!is_numeric($value)) {
+            throw ValidationException::withMessages([$attribute => __('validation.numeric', ['attribute' => $requestAttribute])]);
+        }
 
-            if (isset($this->taxColumn)) {
-                $taxColumn = $this->taxColumn;
-                $model->{$taxColumn} = $request->input($this->attribute . '_tax');
-            }
+        $model->{$attribute} = $value;
 
-            if (isset($this->vatRateTypeColumn)) {
-                $taxColumn = $this->vatRateTypeColumn;
-                $model->{$taxColumn} = $request->input($this->attribute . '_vat_rate_type');
-            }
+        if (isset($this->withoutTaxColumn)) {
+            $withoutTaxColumn = $this->withoutTaxColumn;
+            $model->{$this}->{$withoutTaxColumn} = $request->input($this->attribute . '_without_tax');
+        }
+
+        if (isset($this->taxColumn)) {
+            $taxColumn = $this->taxColumn;
+            $model->{$taxColumn} = $request->input($this->attribute . '_tax');
+        }
+
+        if (isset($this->vatRateTypeColumn)) {
+            $taxColumn = $this->vatRateTypeColumn;
+            $model->{$taxColumn} = $request->input($this->attribute . '_vat_rate_type');
         }
     }
 }
