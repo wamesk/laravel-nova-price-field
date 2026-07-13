@@ -129,8 +129,8 @@ export default {
      * Set the initial, internal value for the field.
      */
     setInitialValue() {
-      this.value = this.currentField.value || '';
-      this.valueTax = this.currentField.taxValue || '';
+      this.value = this.currentField.value ?? '';
+      this.valueTax = this.currentField.taxValue ?? '';
       this.calculatePriceWithoutTax();
     },
 
@@ -138,10 +138,10 @@ export default {
      * Fill the given FormData object with the field's internal value.
      */
     fill(formData) {
-      formData.append(this.fieldAttribute, this.value || null)
-      formData.append(this.fieldAttribute+'_without_tax', this.valueWithoutTax || null)
-      formData.append(this.fieldAttribute+'_tax', this.valueTax || null)
-      formData.append(this.fieldAttribute+'_vat_rate_type', this.currentField.vat_rate_types?.[this.valueTax]?.id || null)
+      formData.append(this.fieldAttribute, this.emptyToNull(this.parseNumber(this.value)))
+      formData.append(this.fieldAttribute+'_without_tax', this.emptyToNull(this.parseNumber(this.valueWithoutTax)))
+      formData.append(this.fieldAttribute+'_tax', this.emptyToNull(this.parseNumber(this.valueTax)))
+      formData.append(this.fieldAttribute+'_vat_rate_type', this.currentField.vat_rate_types?.[this.valueTax]?.id ?? null)
     },
 
     calculatePriceWithoutTax() {
@@ -150,7 +150,7 @@ export default {
         return;
       }
 
-      this.value = round(this.value, 2);
+      this.value = round(this.parseNumber(this.value), 2);
 
       this.valueWithoutTax = round(this.value / this.getTaxCalculator(), 2);
     },
@@ -161,14 +161,35 @@ export default {
         return;
       }
 
-      this.valueWithoutTax = round(this.valueWithoutTax, 2);
+      this.valueWithoutTax = round(this.parseNumber(this.valueWithoutTax), 2);
 
       this.value = round(this.valueWithoutTax * this.getTaxCalculator(), 2);
     },
 
     getTaxCalculator() {
-      return (this.valueTax / 100) + 1;
-    }
+      return (this.parseNumber(this.valueTax) / 100) + 1;
+    },
+
+    /**
+     * Normalize a decimal string that uses a comma as the decimal separator
+     * (e.g. "10,20" typed on keyboards with a numeric comma) into a dot-based
+     * value, so lodash round()/toNumber() does not turn it into NaN.
+     */
+    parseNumber(value) {
+      if (typeof value === 'string') {
+        return value.replace(',', '.');
+      }
+
+      return value;
+    },
+
+    /**
+     * Convert only genuinely empty input to null, preserving a legitimate 0.
+     * A plain `value || null` would send 0 as null and break NOT NULL columns.
+     */
+    emptyToNull(value) {
+      return (value === null || value === undefined || value === '') ? null : value;
+    },
   },
 }
 </script>
